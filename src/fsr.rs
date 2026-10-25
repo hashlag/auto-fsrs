@@ -1,0 +1,51 @@
+pub struct Fsr {
+    state: u32,
+    feedback_fn: Box<dyn Fn(u32) -> bool>,
+}
+
+impl Fsr {
+    pub fn new(initial_state: u32, feedback_fn: impl Fn(u32) -> bool + 'static) -> Self {
+        Self {
+            state: initial_state,
+            feedback_fn: Box::new(feedback_fn),
+        }
+    }
+
+    pub fn step(&mut self) -> bool {
+        let feedback: bool = (self.feedback_fn)(self.state);
+        let discarded_bit: bool = (self.state & 0b1) == 1;
+
+        self.state >>= 1;
+        self.state |= (feedback as u32) << (u32::BITS - 1);
+
+        discarded_bit
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::feedback;
+
+    use std::fmt::Write;
+
+    #[test]
+    fn basic_test() {
+        let mut lfsr: Fsr = Fsr::new(0b1, feedback::feedback32_22_2_1);
+
+        let expected: String = String::from(
+            "10000000000000000000000000000000110110110110110110110100010100011\
+             11001111001000010011001000010010101110010011101010010110010001011\
+             10000101000001000000001110100100110001110110001110101101010011000\
+             1100001000111100001000010111011011110101010011001001010",
+        );
+
+        let mut fact: String = String::new();
+
+        for _ in 0..expected.chars().count() {
+            write!(fact, "{}", lfsr.step() as u8).unwrap();
+        }
+
+        assert_eq!(expected, fact);
+    }
+}
