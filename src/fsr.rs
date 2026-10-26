@@ -11,6 +11,15 @@ impl Fsr {
         }
     }
 
+    pub fn skip(&mut self, n: u32) {
+        for _ in 0..n {
+            let feedback: bool = (self.feedback_fn)(self.state);
+
+            self.state >>= 1;
+            self.state |= (feedback as u32) << (u32::BITS - 1);
+        }
+    }
+
     pub fn step(&mut self) -> bool {
         let feedback: bool = (self.feedback_fn)(self.state);
         let discarded_bit: bool = (self.state & 0b1) == 1;
@@ -79,5 +88,28 @@ mod tests {
         for _ in 0..250 {
             assert!(!lfsr.step());
         }
+    }
+
+    #[test]
+    fn skip_test() {
+        let mut lfsr: Fsr = Fsr::new(
+            0b00010000110000100000000100001111,
+            feedback::feedback_32_28_19_18_16_14_11_10_9_6_5_1,
+        );
+
+        let expected: String = String::from(
+            "01011111111110111001110000111111100010010010000100011110010010111\
+             11001001000101100001101000100010001",
+        );
+
+        let mut fact: String = String::new();
+
+        lfsr.skip(400);
+
+        for _ in 0..expected.chars().count() {
+            write!(fact, "{}", lfsr.step() as u8).unwrap();
+        }
+
+        assert_eq!(expected, fact);
     }
 }
