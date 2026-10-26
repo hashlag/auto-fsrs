@@ -71,4 +71,13 @@ mod tests {
 
         assert_eq!(expected, fact);
     }
+
+    #[test]
+    fn zero_init_test() {
+        let mut lfsr: Fsr = Fsr::new(0, feedback::feedback_32_28_19_18_16_14_11_10_9_6_5_1);
+
+        for _ in 0..250 {
+            assert!(!lfsr.step());
+        }
+    }
 }
