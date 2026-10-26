@@ -20,6 +20,7 @@ impl Fsr {
         }
     }
 
+    #[must_use]
     pub fn step(&mut self) -> bool {
         let feedback: bool = (self.feedback_fn)(self.state);
         let discarded_bit: bool = (self.state & 0b1) == 1;
