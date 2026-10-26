@@ -48,4 +48,27 @@ mod tests {
 
         assert_eq!(expected, fact);
     }
+
+    #[test]
+    fn basic2_test() {
+        let mut lfsr: Fsr = Fsr::new(
+            0b00010000110000100000000100001111,
+            feedback::feedback_32_28_19_18_16_14_11_10_9_6_5_1,
+        );
+
+        let expected: String = String::from(
+            "11110000100000000100001100001000101101011110011100101110011101000\
+             11100010000011000111001110111110110001011100011101010100001110011\
+             11010101100110010001101111010101111111111101001001101101110001000\
+             0011001011101001010010000001010101010110111111000010011",
+        );
+
+        let mut fact: String = String::new();
+
+        for _ in 0..expected.chars().count() {
+            write!(fact, "{}", lfsr.step() as u8).unwrap();
+        }
+
+        assert_eq!(expected, fact);
+    }
 }
