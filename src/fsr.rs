@@ -63,7 +63,7 @@ mod tests {
     fn basic2_test() {
         let mut lfsr: Fsr = Fsr::new(
             0b00010000110000100000000100001111,
-            feedback::feedback_32_28_19_18_16_14_11_10_9_6_5_1,
+            feedback::feedback32_28_19_18_16_14_11_10_9_6_5_1,
         );
 
         let expected: String = String::from(
@@ -84,7 +84,7 @@ mod tests {
 
     #[test]
     fn zero_init_test() {
-        let mut lfsr: Fsr = Fsr::new(0, feedback::feedback_32_28_19_18_16_14_11_10_9_6_5_1);
+        let mut lfsr: Fsr = Fsr::new(0, feedback::feedback32_28_19_18_16_14_11_10_9_6_5_1);
 
         for _ in 0..250 {
             assert!(!lfsr.step());
@@ -95,7 +95,7 @@ mod tests {
     fn skip_test() {
         let mut lfsr: Fsr = Fsr::new(
             0b00010000110000100000000100001111,
-            feedback::feedback_32_28_19_18_16_14_11_10_9_6_5_1,
+            feedback::feedback32_28_19_18_16_14_11_10_9_6_5_1,
         );
 
         let expected: String = String::from(
