@@ -160,4 +160,24 @@ mod tests {
 
         assert_eq!(expected, fact);
     }
+
+    #[test]
+    fn nonlinear_feedback_test() {
+        let mut fsr: Fsr<u32> = Fsr::new(10, feedback::len32::feedback_nl_0);
+
+        let expected: String = String::from(
+            "01010000000000000000000000000000101010101010101010101100110011000\
+             00000000010110000000010001010110001101010110100110001011111010110\
+             10110010011001101010110000001100010000010101100111101001010111100\
+             0111101010101010001001001101001100000111101000111000010",
+        );
+
+        let mut fact: String = String::new();
+
+        for _ in 0..expected.chars().count() {
+            write!(fact, "{}", fsr.step() as u8).unwrap();
+        }
+
+        assert_eq!(expected, fact);
+    }
 }
