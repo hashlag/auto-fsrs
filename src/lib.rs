@@ -1,3 +1,3 @@
 pub mod feedback;
 pub mod fsr;
-mod register;
+pub mod register;
