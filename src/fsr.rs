@@ -1,10 +1,15 @@
-pub struct Fsr {
-    state: u32,
-    feedback_fn: Box<dyn Fn(u32) -> bool>,
+use crate::register::FsRegister;
+
+pub struct Fsr<Register: FsRegister> {
+    state: Register,
+    feedback_fn: Box<dyn Fn(Register) -> bool>,
 }
 
-impl Fsr {
-    pub fn new(initial_state: u32, feedback_fn: impl Fn(u32) -> bool + 'static) -> Self {
+impl<Register> Fsr<Register>
+where
+    Register: FsRegister,
+{
+    pub fn new(initial_state: Register, feedback_fn: impl Fn(Register) -> bool + 'static) -> Self {
         Self {
             state: initial_state,
             feedback_fn: Box::new(feedback_fn),
@@ -15,18 +20,18 @@ impl Fsr {
         for _ in 0..n {
             let feedback: bool = (self.feedback_fn)(self.state);
 
-            self.state >>= 1;
-            self.state |= (feedback as u32) << (u32::BITS - 1);
+            self.state >>= 1u8.into();
+            self.state |= Register::from(feedback as u8) << (Register::BITS - 1u8.into());
         }
     }
 
     #[must_use]
     pub fn step(&mut self) -> bool {
         let feedback: bool = (self.feedback_fn)(self.state);
-        let discarded_bit: bool = (self.state & 0b1) == 1;
+        let discarded_bit: bool = (self.state & 1u8.into()) == 1u8.into();
 
-        self.state >>= 1;
-        self.state |= (feedback as u32) << (u32::BITS - 1);
+        self.state >>= 1u8.into();
+        self.state |= Register::from(feedback as u8) << (Register::BITS - 1u8.into());
 
         discarded_bit
     }
@@ -41,7 +46,7 @@ mod tests {
 
     #[test]
     fn basic_test() {
-        let mut lfsr: Fsr = Fsr::new(0b1, feedback::feedback_c0000401);
+        let mut lfsr: Fsr<u32> = Fsr::new(0b1, feedback::feedback_c0000401);
 
         let expected: String = String::from(
             "10000000000000000000000000000000110110110110110110110100010100011\
@@ -61,7 +66,7 @@ mod tests {
 
     #[test]
     fn basic2_test() {
-        let mut lfsr: Fsr = Fsr::new(
+        let mut lfsr: Fsr<u32> = Fsr::new(
             0b00010000110000100000000100001111,
             feedback::feedback_8ce56011,
         );
@@ -84,7 +89,7 @@ mod tests {
 
     #[test]
     fn zero_init_test() {
-        let mut lfsr: Fsr = Fsr::new(0, feedback::feedback_8ce56011);
+        let mut lfsr: Fsr<u32> = Fsr::new(0, feedback::feedback_8ce56011);
 
         for _ in 0..250 {
             assert!(!lfsr.step());
@@ -93,7 +98,7 @@ mod tests {
 
     #[test]
     fn skip_test() {
-        let mut lfsr: Fsr = Fsr::new(
+        let mut lfsr: Fsr<u32> = Fsr::new(
             0b00010000110000100000000100001111,
             feedback::feedback_8ce56011,
         );
