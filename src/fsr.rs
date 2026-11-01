@@ -90,6 +90,26 @@ mod tests {
     }
 
     #[test]
+    fn basic16bit_test() {
+        let mut lfsr: Fsr<u16> = Fsr::new(2, feedback::len16::feedback_a011);
+
+        let expected: String = String::from(
+            "01000000000000000111010011101100110000111001110110001101010010000\
+             11001100000101001110000110110111111110010100000001000110111011101\
+             01010011101010011001001001010011011011001010000100000100001001101\
+             1101101010000000010100001110111100101101001011111111111",
+        );
+
+        let mut fact: String = String::new();
+
+        for _ in 0..expected.chars().count() {
+            write!(fact, "{}", lfsr.step() as u8).unwrap();
+        }
+
+        assert_eq!(expected, fact);
+    }
+
+    #[test]
     fn zero_init_test() {
         let mut lfsr: Fsr<u32> = Fsr::new(0, feedback::len32::feedback_8ce56011);
 

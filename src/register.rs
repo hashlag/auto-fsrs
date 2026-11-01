@@ -18,6 +18,10 @@ pub trait FsRegister:
     const BITS: Self;
 }
 
+impl FsRegister for u16 {
+    const BITS: u16 = u16::BITS as u16;
+}
+
 impl FsRegister for u32 {
     const BITS: u32 = u32::BITS;
 }
