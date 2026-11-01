@@ -25,3 +25,7 @@ impl FsRegister for u16 {
 impl FsRegister for u32 {
     const BITS: u32 = u32::BITS;
 }
+
+impl FsRegister for u64 {
+    const BITS: u64 = u64::BITS as u64;
+}
