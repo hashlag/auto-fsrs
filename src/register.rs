@@ -19,5 +19,5 @@ pub trait FsRegister:
 }
 
 impl FsRegister for u32 {
-    const BITS: u32 = u32::BITS as u32;
+    const BITS: u32 = u32::BITS;
 }
