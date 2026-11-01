@@ -48,7 +48,7 @@ mod tests {
 
     #[test]
     fn basic_test() {
-        let mut lfsr: Fsr<u32> = Fsr::new(0b1, feedback::feedback_c0000401);
+        let mut lfsr: Fsr<u32> = Fsr::new(0b1, feedback::len32::feedback_c0000401);
 
         let expected: String = String::from(
             "10000000000000000000000000000000110110110110110110110100010100011\
@@ -70,7 +70,7 @@ mod tests {
     fn basic2_test() {
         let mut lfsr: Fsr<u32> = Fsr::new(
             0b00010000110000100000000100001111,
-            feedback::feedback_8ce56011,
+            feedback::len32::feedback_8ce56011,
         );
 
         let expected: String = String::from(
@@ -91,7 +91,7 @@ mod tests {
 
     #[test]
     fn zero_init_test() {
-        let mut lfsr: Fsr<u32> = Fsr::new(0, feedback::feedback_8ce56011);
+        let mut lfsr: Fsr<u32> = Fsr::new(0, feedback::len32::feedback_8ce56011);
 
         for _ in 0..250 {
             assert!(!lfsr.step());
@@ -102,7 +102,7 @@ mod tests {
     fn skip_test() {
         let mut lfsr: Fsr<u32> = Fsr::new(
             0b00010000110000100000000100001111,
-            feedback::feedback_8ce56011,
+            feedback::len32::feedback_8ce56011,
         );
 
         let expected: String = String::from(
