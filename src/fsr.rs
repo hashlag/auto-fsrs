@@ -19,9 +19,7 @@ where
     pub fn skip(&mut self, n: u32) {
         for _ in 0..n {
             let feedback: bool = (self.feedback_fn)(self.state);
-
-            self.state >>= 1u8.into();
-            self.state |= Register::from(feedback as u8) << (Register::BITS - 1u8.into());
+            self.shift_impl(feedback);
         }
     }
 
@@ -30,10 +28,14 @@ where
         let feedback: bool = (self.feedback_fn)(self.state);
         let discarded_bit: bool = (self.state & 1u8.into()) == 1u8.into();
 
-        self.state >>= 1u8.into();
-        self.state |= Register::from(feedback as u8) << (Register::BITS - 1u8.into());
+        self.shift_impl(feedback);
 
         discarded_bit
+    }
+
+    fn shift_impl(&mut self, feedback: bool) {
+        self.state >>= 1u8.into();
+        self.state |= Register::from(feedback as u8) << (Register::BITS - 1u8.into());
     }
 }
 
