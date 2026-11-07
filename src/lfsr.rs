@@ -1,12 +1,12 @@
-use crate::{fsr::Fsr, register::FsRegister};
+use crate::{fsr::Fsr, register_uint::RegisterUInt};
 
-pub struct Lfsr<Register: FsRegister> {
+pub struct Lfsr<Register: RegisterUInt> {
     fsr: Fsr<Register>,
 }
 
 impl<Register> Lfsr<Register>
 where
-    Register: FsRegister,
+    Register: RegisterUInt,
 {
     pub fn new(initial_state: Register, feedback_poly: Register) -> Self {
         let feedback_fn = move |state: Register| -> bool {

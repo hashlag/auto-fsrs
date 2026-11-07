@@ -1,13 +1,13 @@
-use crate::register::FsRegister;
+use crate::register_uint::RegisterUInt;
 
-pub struct Fsr<Register: FsRegister> {
+pub struct Fsr<Register: RegisterUInt> {
     state: Register,
     feedback_fn: Box<dyn Fn(Register) -> bool>,
 }
 
 impl<Register> Fsr<Register>
 where
-    Register: FsRegister,
+    Register: RegisterUInt,
 {
     pub fn new(initial_state: Register, feedback_fn: impl Fn(Register) -> bool + 'static) -> Self {
         Self {

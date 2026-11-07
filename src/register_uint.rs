@@ -1,6 +1,6 @@
 use std::ops::{BitAnd, BitAndAssign, BitOr, BitOrAssign, Shl, ShlAssign, Shr, ShrAssign, Sub};
 
-pub trait FsRegister:
+pub trait RegisterUInt:
     Sized
     + Copy
     + Shl<Output = Self>
@@ -20,7 +20,7 @@ pub trait FsRegister:
     fn count_ones(self) -> Self;
 }
 
-impl FsRegister for u16 {
+impl RegisterUInt for u16 {
     const BITS: u16 = u16::BITS as u16;
 
     fn count_ones(self) -> u16 {
@@ -28,7 +28,7 @@ impl FsRegister for u16 {
     }
 }
 
-impl FsRegister for u32 {
+impl RegisterUInt for u32 {
     const BITS: u32 = u32::BITS;
 
     fn count_ones(self) -> Self {
@@ -36,7 +36,7 @@ impl FsRegister for u32 {
     }
 }
 
-impl FsRegister for u64 {
+impl RegisterUInt for u64 {
     const BITS: u64 = u64::BITS as u64;
 
     fn count_ones(self) -> Self {
