@@ -43,3 +43,35 @@ impl RegisterUInt for u64 {
         u64::count_ones(self) as u64
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn u16_test() {
+        assert_eq!(16, <u16 as RegisterUInt>::BITS);
+
+        assert_eq!(0, <u16 as RegisterUInt>::count_ones(0u16));
+        assert_eq!(1, <u16 as RegisterUInt>::count_ones(1u16));
+        assert_eq!(16, <u16 as RegisterUInt>::count_ones(u16::MAX));
+    }
+
+    #[test]
+    fn u32_test() {
+        assert_eq!(32, <u32 as RegisterUInt>::BITS);
+
+        assert_eq!(0, <u32 as RegisterUInt>::count_ones(0u32));
+        assert_eq!(1, <u32 as RegisterUInt>::count_ones(1u32));
+        assert_eq!(32, <u32 as RegisterUInt>::count_ones(u32::MAX));
+    }
+
+    #[test]
+    fn u64_test() {
+        assert_eq!(64, <u64 as RegisterUInt>::BITS);
+
+        assert_eq!(0, <u64 as RegisterUInt>::count_ones(0u64));
+        assert_eq!(1, <u64 as RegisterUInt>::count_ones(1u64));
+        assert_eq!(64, <u64 as RegisterUInt>::count_ones(u64::MAX));
+    }
+}
