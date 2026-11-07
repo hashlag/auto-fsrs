@@ -13,6 +13,7 @@ pub trait RegisterUInt:
     + BitOrAssign
     + Sub<Output = Self>
     + PartialEq
+    + Ord
     + From<u8>
     + 'static
 {
