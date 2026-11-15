@@ -19,6 +19,12 @@ where
         }
     }
 
+    pub fn from_storage(matrix_storage: BitVector::SquareMatrixStorage) -> Self {
+        Self {
+            storage: matrix_storage,
+        }
+    }
+
     pub fn size(&self) -> usize {
         self.storage.as_ref().len()
     }
@@ -99,5 +105,31 @@ mod tests {
 
         matrix[1] = u32::MAX;
         assert_eq!(u32::MAX, matrix[1]);
+    }
+
+    #[test]
+    fn from_storage_test() {
+        let matrix: RegisterMatrix<u16> = RegisterMatrix::from_storage([
+            0b0000_0000_0000_0001u16,
+            0b0000_0000_0000_0010u16,
+            0b0000_0000_0000_0100u16,
+            0b0000_0000_0000_1000u16,
+            0b0000_0000_0001_0000u16,
+            0b0000_0000_0010_0000u16,
+            0b0000_0000_0100_0000u16,
+            0b0000_0000_1000_0000u16,
+            0b0000_0001_0000_0000u16,
+            0b0000_0010_0000_0000u16,
+            0b0000_0100_0000_0000u16,
+            0b0000_1000_0000_0000u16,
+            0b0001_0000_0000_0000u16,
+            0b0010_0000_0000_0000u16,
+            0b0100_0000_0000_0000u16,
+            0b1000_0000_0000_0000u16,
+        ]);
+
+        for idx in 0..matrix.size() {
+            assert_eq!(1u16 << idx, matrix[idx]);
+        }
     }
 }
