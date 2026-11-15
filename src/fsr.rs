@@ -1,4 +1,4 @@
-use crate::register_uint::RegisterUInt;
+use crate::primitives::register_uint::RegisterUInt;
 
 pub struct Fsr<Register: RegisterUInt> {
     state: Register,

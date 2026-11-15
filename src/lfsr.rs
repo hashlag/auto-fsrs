@@ -1,4 +1,4 @@
-use crate::{fsr::Fsr, register_uint::RegisterUInt};
+use crate::{fsr::Fsr, primitives::register_uint::RegisterUInt};
 
 pub struct Lfsr<Register: RegisterUInt> {
     fsr: Fsr<Register>,
