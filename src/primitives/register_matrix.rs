@@ -31,6 +31,8 @@ where
 
     pub fn transform(&self, vector: BitVector) -> BitVector {
         const {
+            assert!(BitVector::SquareMatrixStorage::SIZE > 0);
+
             let max_index = BitVector::SquareMatrixStorage::SIZE - 1;
             assert!((max_index as u64) <= u8::MAX as u64);
 
