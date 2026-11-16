@@ -35,7 +35,7 @@ where
 
     fn shift_impl(&mut self, feedback: bool) {
         self.state >>= 1u8.into();
-        self.state |= Register::from(feedback as u8) << (Register::BITS - 1u8.into());
+        self.state |= Register::from(feedback as u8) << Register::from(Register::BITS - 1);
     }
 }
 

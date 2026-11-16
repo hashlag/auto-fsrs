@@ -34,7 +34,7 @@ where
             let max_index = BitVector::SquareMatrixStorage::SIZE - 1;
             assert!((max_index as u64) <= u8::MAX as u64);
 
-            assert!((BitVector::SquareMatrixStorage::SIZE as u64) == BitVector::BITS_U64);
+            assert!((BitVector::SquareMatrixStorage::SIZE as u64) == (BitVector::BITS as u64));
         };
 
         let mut result: BitVector = BitVector::ZERO;
