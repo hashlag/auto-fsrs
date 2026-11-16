@@ -9,16 +9,21 @@ pub struct RegisterMatrix<BitVector: RegisterMatrixVector> {
     storage: BitVector::SquareMatrixStorage,
 }
 
-impl<BitVector> RegisterMatrix<BitVector>
+impl<BitVector> Default for RegisterMatrix<BitVector>
 where
     BitVector: RegisterMatrixVector,
 {
-    pub fn new() -> Self {
+    fn default() -> Self {
         Self {
             storage: BitVector::SquareMatrixStorage::zero_matrix(),
         }
     }
+}
 
+impl<BitVector> RegisterMatrix<BitVector>
+where
+    BitVector: RegisterMatrixVector,
+{
     pub fn from_storage(matrix_storage: BitVector::SquareMatrixStorage) -> Self {
         Self {
             storage: matrix_storage,
@@ -75,9 +80,9 @@ mod tests {
     use super::*;
 
     #[test]
-    fn new_test() {
+    fn default_test() {
         {
-            let matrix: RegisterMatrix<u16> = RegisterMatrix::new();
+            let matrix: RegisterMatrix<u16> = RegisterMatrix::default();
             assert_eq!(16, matrix.size());
 
             for idx in 0..matrix.size() {
@@ -86,7 +91,7 @@ mod tests {
         }
 
         {
-            let matrix: RegisterMatrix<u32> = RegisterMatrix::new();
+            let matrix: RegisterMatrix<u32> = RegisterMatrix::default();
             assert_eq!(32, matrix.size());
 
             for idx in 0..matrix.size() {
@@ -95,7 +100,7 @@ mod tests {
         }
 
         {
-            let matrix: RegisterMatrix<u64> = RegisterMatrix::new();
+            let matrix: RegisterMatrix<u64> = RegisterMatrix::default();
             assert_eq!(64, matrix.size());
 
             for idx in 0..matrix.size() {
@@ -106,7 +111,7 @@ mod tests {
 
     #[test]
     fn index_mut_test() {
-        let mut matrix: RegisterMatrix<u32> = RegisterMatrix::new();
+        let mut matrix: RegisterMatrix<u32> = RegisterMatrix::default();
         assert_eq!(0, matrix[0]);
 
         matrix[0] = 123;
@@ -223,7 +228,7 @@ mod tests {
         }
 
         {
-            let matrix: RegisterMatrix<u16> = RegisterMatrix::new();
+            let matrix: RegisterMatrix<u16> = RegisterMatrix::default();
 
             assert_eq!(0, matrix.transform(u16::MAX));
         }
