@@ -18,12 +18,14 @@ pub trait RegisterUInt:
     + 'static
 {
     const BITS: Self;
+    const BITS_U64: u64;
     const ZERO: Self;
     fn count_ones(self) -> Self;
 }
 
 impl RegisterUInt for u16 {
     const BITS: u16 = u16::BITS as u16;
+    const BITS_U64: u64 = u16::BITS as u64;
     const ZERO: u16 = 0;
 
     fn count_ones(self) -> u16 {
@@ -33,6 +35,7 @@ impl RegisterUInt for u16 {
 
 impl RegisterUInt for u32 {
     const BITS: u32 = u32::BITS;
+    const BITS_U64: u64 = u32::BITS as u64;
     const ZERO: u32 = 0;
 
     fn count_ones(self) -> Self {
@@ -42,6 +45,7 @@ impl RegisterUInt for u32 {
 
 impl RegisterUInt for u64 {
     const BITS: u64 = u64::BITS as u64;
+    const BITS_U64: u64 = u64::BITS as u64;
     const ZERO: u64 = 0;
 
     fn count_ones(self) -> Self {
@@ -56,6 +60,7 @@ mod tests {
     #[test]
     fn u16_test() {
         assert_eq!(16, <u16 as RegisterUInt>::BITS);
+        assert_eq!(16, <u16 as RegisterUInt>::BITS_U64);
         assert_eq!(0, <u16 as RegisterUInt>::ZERO);
 
         assert_eq!(0, <u16 as RegisterUInt>::count_ones(0u16));
@@ -66,6 +71,7 @@ mod tests {
     #[test]
     fn u32_test() {
         assert_eq!(32, <u32 as RegisterUInt>::BITS);
+        assert_eq!(32, <u32 as RegisterUInt>::BITS_U64);
         assert_eq!(0, <u32 as RegisterUInt>::ZERO);
 
         assert_eq!(0, <u32 as RegisterUInt>::count_ones(0u32));
@@ -76,6 +82,7 @@ mod tests {
     #[test]
     fn u64_test() {
         assert_eq!(64, <u64 as RegisterUInt>::BITS);
+        assert_eq!(64, <u64 as RegisterUInt>::BITS_U64);
         assert_eq!(0, <u64 as RegisterUInt>::ZERO);
 
         assert_eq!(0, <u64 as RegisterUInt>::count_ones(0u64));
