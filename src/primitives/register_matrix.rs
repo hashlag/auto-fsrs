@@ -41,14 +41,17 @@ where
             let max_index = BitVector::SquareMatrixStorage::SIZE - 1;
             assert!((max_index as u64) <= u8::MAX as u64);
 
-            assert!((BitVector::SquareMatrixStorage::SIZE as u64) == (BitVector::BITS as u64));
+            assert!(
+                (BitVector::SquareMatrixStorage::SIZE as u64)
+                    == (BitVector::BITS as u64)
+            );
         };
 
         let mut result: BitVector = BitVector::ZERO;
 
         for (idx, row) in self.storage.as_ref().iter().rev().enumerate() {
-            result |=
-                ((*row & vector).count_ones() & BitVector::from(1)) << BitVector::from(idx as u8);
+            result |= ((*row & vector).count_ones() & BitVector::from(1))
+                << BitVector::from(idx as u8);
         }
 
         result
