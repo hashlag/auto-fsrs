@@ -10,7 +10,8 @@ where
 {
     pub fn new(initial_state: Register, feedback_poly: Register) -> Self {
         let feedback_fn = move |state: Register| -> bool {
-            (state & feedback_poly).count_ones() & Register::from(1u8) == Register::from(1u8)
+            (state & feedback_poly).count_ones() & Register::from(1u8)
+                == Register::from(1u8)
         };
 
         Self {
@@ -96,7 +97,8 @@ mod tests {
 
     #[test]
     fn skip_test() {
-        let mut lfsr: Lfsr<u32> = Lfsr::new(0b00010000110000100000000100001111, 0x8CE5_6011);
+        let mut lfsr: Lfsr<u32> =
+            Lfsr::new(0b00010000110000100000000100001111, 0x8CE5_6011);
 
         let expected: String = String::from(
             "01011111111110111001110000111111100010010010000100011110010010111\
