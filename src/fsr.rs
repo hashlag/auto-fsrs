@@ -9,7 +9,10 @@ impl<Register> Fsr<Register>
 where
     Register: RegisterUInt,
 {
-    pub fn new(initial_state: Register, feedback_fn: impl Fn(Register) -> bool + 'static) -> Self {
+    pub fn new(
+        initial_state: Register,
+        feedback_fn: impl Fn(Register) -> bool + 'static,
+    ) -> Self {
         Self {
             state: initial_state,
             feedback_fn: Box::new(feedback_fn),
@@ -35,7 +38,8 @@ where
 
     fn shift_impl(&mut self, feedback: bool) {
         self.state >>= 1u8.into();
-        self.state |= Register::from(feedback as u8) << Register::from(Register::BITS - 1);
+        self.state |=
+            Register::from(feedback as u8) << Register::from(Register::BITS - 1);
     }
 }
 
@@ -48,7 +52,8 @@ mod tests {
 
     #[test]
     fn basic_test() {
-        let mut lfsr: Fsr<u32> = Fsr::new(0b1, feedback::linear::len32::feedback_c0000401);
+        let mut lfsr: Fsr<u32> =
+            Fsr::new(0b1, feedback::linear::len32::feedback_c0000401);
 
         let expected: String = String::from(
             "10000000000000000000000000000000110110110110110110110100010100011\
@@ -111,7 +116,8 @@ mod tests {
 
     #[test]
     fn basic64bit_test() {
-        let mut lfsr: Fsr<u64> = Fsr::new(10, feedback::linear::len64::feedback_b000000000000001);
+        let mut lfsr: Fsr<u64> =
+            Fsr::new(10, feedback::linear::len64::feedback_b000000000000001);
 
         let expected: String = String::from(
             "01010000000000000000000000000000000000000000000000000000000000000\
@@ -131,7 +137,8 @@ mod tests {
 
     #[test]
     fn zero_init_test() {
-        let mut lfsr: Fsr<u32> = Fsr::new(0, feedback::linear::len32::feedback_8ce56011);
+        let mut lfsr: Fsr<u32> =
+            Fsr::new(0, feedback::linear::len32::feedback_8ce56011);
 
         for _ in 0..250 {
             assert!(!lfsr.step());
@@ -163,7 +170,8 @@ mod tests {
 
     #[test]
     fn nonlinear_feedback_test() {
-        let mut fsr: Fsr<u32> = Fsr::new(10, feedback::nonlinear::len32::feedback_nl_0);
+        let mut fsr: Fsr<u32> =
+            Fsr::new(10, feedback::nonlinear::len32::feedback_nl_0);
 
         let expected: String = String::from(
             "01010000000000000000000000000000101010101010101010101100110011000\

@@ -1,4 +1,6 @@
-use std::ops::{BitAnd, BitAndAssign, BitOr, BitOrAssign, Shl, ShlAssign, Shr, ShrAssign, Sub};
+use std::ops::{
+    BitAnd, BitAndAssign, BitOr, BitOrAssign, Shl, ShlAssign, Shr, ShrAssign, Sub,
+};
 
 pub trait RegisterUInt:
     Sized
